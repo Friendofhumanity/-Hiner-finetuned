@@ -1,0 +1,9 @@
+हैलो	B-LITERATURE
+दोस्त।	I-MISC
+एनएलपी	B-ORGANIZATION
+की	I-LITERATURE
+दुनिया	B-LOCATION
+में	O
+आपका	O
+स्वागत	O
+है	O
