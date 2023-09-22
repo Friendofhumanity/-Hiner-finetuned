@@ -1,14 +1,16 @@
+#Importing Libraries
 import torch
 from transformers import AutoTokenizer, AutoModelForTokenClassification
 
+#Read lines from a file using its file path
+
 def read_lines_from_file(file_path):
-    #Read lines from a file using its file path
     with open(file_path, 'r', encoding='utf-8') as file_read:
         return [line.strip() for line in file_read.readlines() if line.strip()]
 
+#Predict labels using a model and write the predictions into a file.
 
 def predict_labels_for_sentences(model, tokenizer, sentences, index_to_label_dict):
-    #Predict labels using a model and write the predictions into a file.
     input_tensors = tokenizer(sentences, padding='max_length', max_length=128, truncation=True, return_tensors='pt')
     outputs = model(**input_tensors)
     logit_values = outputs.logits
@@ -24,15 +26,20 @@ def predict_labels_for_sentences(model, tokenizer, sentences, index_to_label_dic
             previous_word_idx = None
             label_ids = []
 
+# Special tokens have a word id that is None. We set the label to -100, so they are automatically
+# ignored in the loss function.
+            
             for word_index in range(len(word_ids)):
-                # Special tokens have a word id that is None. We set the label to -100, so they are automatically
-                # ignored in the loss function.
                 if word_ids[word_index] is None:
                     continue
+                    
                 # We set the label for the first token of each word.
+                
                 elif word_ids[word_index] != previous_word_idx:
                     label_ids.append(index_to_label_dict[arg_max_torch[index][word_index]])
+                
                 # For the other tokens in a word, we ignore the label prediction
+                
                 else:
                     continue
                 previous_word_idx = word_ids[word_index]
@@ -51,6 +58,7 @@ def write_lines_to_file(lines, file_path):
 
 def main():
     #Pass arguments and call functions here.
+    
     input_data = """हैलो दोस्त। एनएलपी की दुनिया में आपका स्वागत है"""
 
     tokenizer = AutoTokenizer.from_pretrained("Your_Model_here")
