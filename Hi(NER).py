@@ -33,7 +33,7 @@ def predict_labels_for_sentences(model, tokenizer, sentences, index_to_label_dic
                 if word_ids[word_index] is None:
                     continue
                     
-                # We set the label for the first token of each word.
+                # Set the label for the first token of each word.
                 
                 elif word_ids[word_index] != previous_word_idx:
                     label_ids.append(index_to_label_dict[arg_max_torch[index][word_index]])
