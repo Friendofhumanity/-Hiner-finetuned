@@ -26,7 +26,7 @@ def predict_labels_for_sentences(model, tokenizer, sentences, index_to_label_dic
             previous_word_idx = None
             label_ids = []
 
-# Special tokens have a word id that is None. We set the label to -100, so they are automatically
+# Special tokens have a word id that is None. Set the label to -100, so they are automatically
 # ignored in the loss function.
             
             for word_index in range(len(word_ids)):
@@ -38,7 +38,7 @@ def predict_labels_for_sentences(model, tokenizer, sentences, index_to_label_dic
                 elif word_ids[word_index] != previous_word_idx:
                     label_ids.append(index_to_label_dict[arg_max_torch[index][word_index]])
                 
-                # For the other tokens in a word, we ignore the label prediction
+                # For the other tokens in a word, ignore the label prediction
                 
                 else:
                     continue
